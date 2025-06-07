@@ -11,5 +11,5 @@ struct OrderBookEntry: Identifiable, Equatable {
     let id: Int
     let side: String
     let price: Double
-    var size: Int
+    var size: Double
 }

@@ -11,6 +11,6 @@ struct Trade: Identifiable, Equatable {
     let id: String
     let side: String
     let price: Double
-    var size: Int
+    var size: Double
     let timestamp: Date
 }

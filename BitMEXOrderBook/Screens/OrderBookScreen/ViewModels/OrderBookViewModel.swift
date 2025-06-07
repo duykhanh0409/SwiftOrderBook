@@ -16,6 +16,16 @@ class OrderBookViewModel: ObservableObject {
     // Maintain dictionaries for fast, stable updates
     private var buyDict: [Int: OrderBookEntry] = [:]
     private var sellDict: [Int: OrderBookEntry] = [:]
+    
+    var displayedRows: [(buy: OrderBookEntry?, sell: OrderBookEntry?)] {
+        let count = max(buyEntries.count, sellEntries.count, 20)
+        // Take top 20 only
+        return (0..<min(count, 20)).map { i in
+            let buy = i < buyEntries.count ? buyEntries[i] : nil
+            let sell = i < sellEntries.count ? sellEntries[i] : nil
+            return (buy, sell)
+        }
+    }
 
     // Public interface for WebSocketManager to process new messages
     func processOrderBookL2Message(_ msg: [String: Any]) {
@@ -25,7 +35,7 @@ class OrderBookViewModel: ObservableObject {
             guard let id = entry["id"] as? Int,
                   let side = entry["side"] as? String else { continue }
             let price = entry["price"] as? Double ?? 0
-            let size = entry["size"] as? Int ?? 0
+            let size = entry["size"] as? Double ?? 0
             switch action {
             case "insert":
                 let newEntry = OrderBookEntry(id: id, side: side, price: price, size: size)

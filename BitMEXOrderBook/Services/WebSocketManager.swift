@@ -99,7 +99,7 @@ class WebSocketManager: ObservableObject {
                     if let id = t["trdMatchID"] as? String,
                        let side = t["side"] as? String,
                        let price = t["price"] as? Double,
-                       let size = t["size"] as? Int,
+                       let size = t["size"] as? Double,
                        let ts = t["timestamp"] as? String,
                        let date = ISO8601DateFormatter().date(from: ts) {
                         newTrades.append(Trade(id: id, side: side, price: price, size: size, timestamp: date))
