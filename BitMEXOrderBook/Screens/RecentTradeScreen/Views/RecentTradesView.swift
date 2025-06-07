@@ -8,22 +8,27 @@
 import SwiftUI
 
 struct RecentTradesView: View {
-    @ObservedObject var wsManager = WebSocketManager.shared
+    @ObservedObject var viewModel = WebSocketManager.shared.recentTradesViewModel
     
     var body: some View {
-        List(wsManager.tradesData) { trade in
-            HStack {
-                Text("\(trade.price, specifier: "%.2f")")
-                    .foregroundColor(trade.side == "Buy" ? .green : .red)
-                Spacer()
-                Text("\(trade.size)")
-                    .foregroundColor(trade.side == "Buy" ? .green : .red)
-                Spacer()
-                Text(trade.timestamp, style: .time)
-                    .font(.caption)
+        VStack(spacing: 0) {
+            RecentTradesHeaderView()
+            Divider().padding(.bottom, 0)
+            ScrollView {
+                LazyVStack(spacing: 0) {
+                    ForEach(viewModel.trades) { trade in
+                        RecentTradeRowView(
+                            price: trade.price.formattedWithSeparator(decimalPlaces: 1),
+                            qty: trade.size.qtyString,
+                            time: trade.timestamp.formattedTime,
+                            isBuy: trade.side == "Buy"
+                        )
+                    }
+                }
+                .padding(.horizontal, 8)
             }
-            .padding(.vertical, 2)
         }
+        .background(Color.white)
     }
 }
 

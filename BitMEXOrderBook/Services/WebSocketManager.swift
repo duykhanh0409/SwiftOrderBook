@@ -12,6 +12,7 @@ class WebSocketManager: ObservableObject {
     static let shared = WebSocketManager()
     private var webSocketTask: URLSessionWebSocketTask?
     let orderBookViewModel = OrderBookViewModel()
+    let recentTradesViewModel = RecentTradesViewModel()
     private let urlSession = URLSession(configuration: .default)
     private let urlString = "wss://www.bitmex.com/realtime"
     
@@ -43,6 +44,7 @@ class WebSocketManager: ObservableObject {
             case .failure(let error):
                 print("WebSocket error: \(error)")
             case .success(let message):
+                print("WebSocket message: \(message)")
                 switch message {
                 case .data(let data):
                     self?.handle(data: data)
@@ -84,6 +86,7 @@ class WebSocketManager: ObservableObject {
     private func handle(text: String) {
         // Parse the incoming message to see if it's an orderBook or trade update
         guard let data = text.data(using: .utf8) else { return }
+    
         if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
            let table = json["table"] as? String,
            let action = json["action"] as? String,
@@ -94,23 +97,7 @@ class WebSocketManager: ObservableObject {
             }
             
             if table == "trade" {
-                var newTrades: [Trade] = []
-                for t in dataArr {
-                    if let id = t["trdMatchID"] as? String,
-                       let side = t["side"] as? String,
-                       let price = t["price"] as? Double,
-                       let size = t["size"] as? Double,
-                       let ts = t["timestamp"] as? String,
-                       let date = ISO8601DateFormatter().date(from: ts) {
-                        newTrades.append(Trade(id: id, side: side, price: price, size: size, timestamp: date))
-                    }
-                }
-                let sortedTrades = (newTrades + self.tradesData)
-                    .sorted { $0.timestamp > $1.timestamp }
-                    .prefix(30)
-                DispatchQueue.main.async {
-                    self.tradesData = Array(sortedTrades)
-                }
+                recentTradesViewModel.processTradeMessage(json)
             }
         }
     }

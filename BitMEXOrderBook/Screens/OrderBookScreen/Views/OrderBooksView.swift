@@ -33,6 +33,7 @@ struct OrderBooksView: View {
                     }
                 }
                 .frame(maxWidth: .infinity)
+                .padding(.horizontal)
                 .background(Color.white)
             }
         }
