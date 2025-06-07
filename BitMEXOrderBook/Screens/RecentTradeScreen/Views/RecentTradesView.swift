@@ -19,7 +19,7 @@ struct RecentTradesView: View {
                     ForEach(viewModel.trades) { trade in
                         RecentTradeRowView(
                             price: trade.price.formattedWithSeparator(decimalPlaces: 1),
-                            qty: trade.size.qtyString,
+                            qty: qtyString(trade.size),
                             time: trade.timestamp.formattedTime,
                             isBuy: trade.side == "Buy"
                         )
@@ -28,7 +28,13 @@ struct RecentTradesView: View {
                 .padding(.horizontal, 8)
             }
         }
+        .padding(.horizontal)
         .background(Color.white)
+    }
+    
+    func qtyString(_ qty: Double) -> String {
+        let normalizedQty = qty / 100000.0
+        return String(format: "%.4f", normalizedQty)
     }
 }
 

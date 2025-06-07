@@ -22,10 +22,10 @@ struct OrderBooksView: View {
                     ForEach(Array(rowsToShow.enumerated()), id: \.offset) { index, row in
                         OrderBookRowView(
                             buyQty: row.buy.map { qtyString($0.size) },
-                            buyPrice: row.buy.map { priceString($0.price) },
+                            buyPrice: row.buy.map { $0.price.formattedWithSeparator(decimalPlaces: 1) },
                             buyVolume: row.buy?.size ?? 0.0,
                             maxBuyVolume: viewModel.buyEntries.map { $0.size }.max() ?? 1,
-                            sellPrice: row.sell.map { priceString($0.price) },
+                            sellPrice: row.sell.map { $0.price.formattedWithSeparator(decimalPlaces: 1) },
                             sellQty: row.sell.map { qtyString($0.size) },
                             sellVolume: row.sell?.size ?? 0.0,
                             maxSellVolume: viewModel.sellEntries.map { $0.size }.max() ?? 1

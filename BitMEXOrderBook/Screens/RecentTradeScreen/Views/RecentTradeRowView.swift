@@ -18,13 +18,13 @@ struct RecentTradeRowView: View {
     var body: some View {
         HStack(spacing: 0) {
             Text(price)
-                .foregroundColor(isBuy ? .green : .green)
+                .foregroundColor(isBuy ? .green : .red)
                 .frame(maxWidth: .infinity, alignment: .leading)
             Text(qty)
-                .foregroundColor(isBuy ? .green : .green)
+                .foregroundColor(isBuy ? .green : .red)
                 .frame(maxWidth: .infinity, alignment: .center)
             Text(time)
-                .foregroundColor(isBuy ? .green : .green)
+                .foregroundColor(isBuy ? .green : .red)
                 .frame(maxWidth: .infinity, alignment: .trailing)
         }
         .font(.system(size: 15, weight: .medium, design: .monospaced))

@@ -57,9 +57,12 @@ class OrderBookViewModel: ObservableObject {
                 break
             }
         }
-        // Update published properties
-        buyEntries = Array(buyDict.values).sorted { $0.price > $1.price }.prefix(20).map { $0 }
-        sellEntries = Array(sellDict.values).sorted { $0.price < $1.price }.prefix(20).map { $0 }
+
+        DispatchQueue.main.async {
+            self.buyEntries = Array(self.buyDict.values).sorted { $0.price > $1.price }.prefix(20).map { $0 }
+            self.sellEntries = Array(self.sellDict.values).sorted { $0.price < $1.price }.prefix(20).map { $0 }
+        }
+      
     }
 
     // Call this if you want to clear everything

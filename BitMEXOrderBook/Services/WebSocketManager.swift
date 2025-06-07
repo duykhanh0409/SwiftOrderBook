@@ -44,7 +44,6 @@ class WebSocketManager: ObservableObject {
             case .failure(let error):
                 print("WebSocket error: \(error)")
             case .success(let message):
-                print("WebSocket message: \(message)")
                 switch message {
                 case .data(let data):
                     self?.handle(data: data)

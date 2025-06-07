@@ -15,7 +15,5 @@ extension Double {
         formatter.maximumFractionDigits = decimalPlaces
         return formatter.string(from: NSNumber(value: self)) ?? "\(self)"
     }
-    var qtyString: String {
-        String(format: "%.4f", self)
-    }
+    
 }
