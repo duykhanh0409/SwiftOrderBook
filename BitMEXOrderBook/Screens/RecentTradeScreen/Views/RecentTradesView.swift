@@ -13,14 +13,16 @@ struct RecentTradesView: View {
     var body: some View {
         List(wsManager.tradesData) { trade in
             HStack {
-                Text(trade.side)
-                Spacer()
                 Text("\(trade.price, specifier: "%.2f")")
+                    .foregroundColor(trade.side == "Buy" ? .green : .red)
                 Spacer()
                 Text("\(trade.size)")
+                    .foregroundColor(trade.side == "Buy" ? .green : .red)
                 Spacer()
                 Text(trade.timestamp, style: .time)
+                    .font(.caption)
             }
+            .padding(.vertical, 2)
         }
     }
 }
