@@ -40,11 +40,20 @@ struct OrderBooksView: View {
     }
     
     func qtyString(_ qty: Double) -> String {
-        let formatted = String(format: "%.4f", qty)
-        return formatted
+        let normalizedQty = qty / 100000.0
+        return String(format: "%.4f", normalizedQty)
     }
+    
     func priceString(_ price: Double) -> String {
-        String(format: "%.1f", price)
+        let formatter = NumberFormatter()
+        formatter.usesGroupingSeparator = true
+        formatter.groupingSeparator = "."
+        formatter.decimalSeparator = "."
+        formatter.groupingSize = 3
+        formatter.minimumFractionDigits = 1
+        formatter.maximumFractionDigits = 1
+        formatter.numberStyle = .decimal
+        return formatter.string(from: NSNumber(value: price)) ?? "\(price)"
     }
 }
 
