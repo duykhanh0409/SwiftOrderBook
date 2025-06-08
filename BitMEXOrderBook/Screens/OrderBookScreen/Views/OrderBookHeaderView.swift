@@ -12,20 +12,20 @@ struct OrderBookHeaderView: View {
         HStack {
             HStack(spacing: 0) {
                 Text("Qty")
-                    .frame(width: .infinity, alignment: .center)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .foregroundColor(.secondary)
                 Spacer()
                 Text("Price (USD)")
-                    .frame(width: .infinity, alignment: .center)
+                    .frame(maxWidth: .infinity, alignment: .center)
                     .foregroundColor(.secondary)
                 Spacer()
                 Text("Qty")
-                    .frame(width: .infinity, alignment: .center)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
                     .foregroundColor(.secondary)
             }
             .font(.system(size: 13, weight: .bold, design: .monospaced))
             .padding(.horizontal)
-            .frame(width: .infinity, height: 22)
+            .frame(height: 22)
             .background(Color(.systemGray6))
             
         }

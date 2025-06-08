@@ -11,13 +11,10 @@ import Combine
 class WebSocketManager: ObservableObject {
     static let shared = WebSocketManager()
     private var webSocketTask: URLSessionWebSocketTask?
-    let orderBookViewModel = OrderBookViewModel()
-    let recentTradesViewModel = RecentTradesViewModel()
+    let orderBookViewModel = OrderBookViewModel.shared
+    let recentTradesViewModel = RecentTradesViewModel.shared
     private let urlSession = URLSession(configuration: .default)
-    private let urlString = "wss://www.bitmex.com/realtime"
-    
-    @Published var orderBookData: [OrderBookEntry] = []
-    @Published var tradesData: [Trade] = []
+    private let urlString = BitMEXConstants.webSocketURL
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -59,7 +56,7 @@ class WebSocketManager: ObservableObject {
     private func subscribeOrderBook() {
         let dict: [String: Any] = [
             "op": "subscribe",
-            "args": ["orderBookL2:XBTUSD"]
+            "args": [BitMEXConstants.orderBookChannel]
         ]
         send(json: dict)
     }
@@ -67,7 +64,7 @@ class WebSocketManager: ObservableObject {
     private func subscribeTrades() {
         let dict: [String: Any] = [
             "op": "subscribe",
-            "args": ["trade:XBTUSD"]
+            "args": [BitMEXConstants.tradeChannel]
         ]
         send(json: dict)
     }
@@ -83,13 +80,10 @@ class WebSocketManager: ObservableObject {
     }
     
     private func handle(text: String) {
-        // Parse the incoming message to see if it's an orderBook or trade update
         guard let data = text.data(using: .utf8) else { return }
     
         if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-           let table = json["table"] as? String,
-           let action = json["action"] as? String,
-           let dataArr = json["data"] as? [[String: Any]] {
+           let table = json["table"] as? String {
             
             if table == "orderBookL2" {
                 orderBookViewModel.processOrderBookL2Message(json)

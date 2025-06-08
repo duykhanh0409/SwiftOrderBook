@@ -16,4 +16,9 @@ extension Double {
         return formatter.string(from: NSNumber(value: self)) ?? "\(self)"
     }
     
+    func qtyString(_ qty: Double) -> String {
+        let normalizedQty = qty / 100000.0
+        return String(format: "%.4f", normalizedQty)
+    }
+    
 }

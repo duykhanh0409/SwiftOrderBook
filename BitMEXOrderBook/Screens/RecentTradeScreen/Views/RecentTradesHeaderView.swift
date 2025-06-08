@@ -21,6 +21,7 @@ struct RecentTradesHeaderView: View {
         .font(.system(size: 14, weight: .bold))
         .foregroundColor(.secondary)
         .padding(.vertical, 5)
+        .padding(.horizontal)
         .background(Color(.systemGray6))
     }
 }

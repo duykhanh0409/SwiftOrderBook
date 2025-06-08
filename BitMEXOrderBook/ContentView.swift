@@ -7,10 +7,6 @@
 
 import SwiftUI
 
-enum Tab {
-    case orderBook, recentTrades
-}
-
 
 struct ContentView: View {
     @State private var selectedTab: Tab = .orderBook

@@ -23,24 +23,24 @@ struct OrderBookRowView: View {
                 HStack{
                     Text(buyQty ?? "")
                         .foregroundColor(.black)
-                        .frame(width: 80, alignment: .leading)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     Spacer()
                     Text(buyPrice ?? "")
                         .foregroundColor(.green)
-                        .frame(width: .infinity, alignment: .trailing)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
                 }
                 Spacer().frame(width: 5)
                 HStack {
                     Text(sellPrice ?? "")
                         .foregroundColor(.red)
-                        .frame(width: .infinity, alignment: .leading)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     Spacer()
                     Text(sellQty ?? "")
                         .foregroundColor(.black)
-                        .frame(width: .infinity, alignment: .trailing)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
                 }
             }
-            .font(.system(size: 14, design: .monospaced))
+            .font(.system(size: 16, design: .monospaced))
             .frame(height: 28)
         }
         .frame(maxWidth: .infinity, alignment: .center)

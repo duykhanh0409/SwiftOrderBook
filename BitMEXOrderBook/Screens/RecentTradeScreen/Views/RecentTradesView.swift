@@ -8,36 +8,28 @@
 import SwiftUI
 
 struct RecentTradesView: View {
-    @ObservedObject var viewModel = WebSocketManager.shared.recentTradesViewModel
+    @ObservedObject var viewModel = RecentTradesViewModel.shared
     
     var body: some View {
-        VStack(spacing: 0) {
+        VStack {
             RecentTradesHeaderView()
-            Divider().padding(.bottom, 0)
             ScrollView {
-                LazyVStack(spacing: 0) {
+                LazyVStack(spacing: 2) {
                     ForEach(viewModel.trades) { trade in
                         RecentTradeRowView(
-                            price: trade.price.formattedWithSeparator(decimalPlaces: 1),
-                            qty: qtyString(trade.size),
-                            time: trade.timestamp.formattedTime,
-                            isBuy: trade.side == "Buy"
+                            trade: trade,
+                            isNew: viewModel.recentlyInsertedIDs.contains(trade.id)
                         )
+                        .padding(.vertical, 12)
                     }
                 }
-                .padding(.horizontal, 8)
+                .padding(.horizontal)
+                .scrollIndicators(.hidden)
             }
         }
-        .padding(.horizontal)
-        .background(Color.white)
-    }
-    
-    func qtyString(_ qty: Double) -> String {
-        let normalizedQty = qty / 100000.0
-        return String(format: "%.4f", normalizedQty)
     }
 }
 
-#Preview {
-    RecentTradesView()
-}
+//#Preview {
+//    RecentTradesView()
+//}

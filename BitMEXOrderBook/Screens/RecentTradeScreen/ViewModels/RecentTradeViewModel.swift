@@ -8,7 +8,9 @@ import Combine
 import Foundation
 
 class RecentTradesViewModel: ObservableObject {
+    static let shared = RecentTradesViewModel()
     @Published var trades: [Trade] = []
+    @Published var recentlyInsertedIDs: Set<String> = []
     let maxTradeCount = 30
     
     func processTradeMessage(_ msg: [String: Any]) {
@@ -34,8 +36,18 @@ class RecentTradesViewModel: ObservableObject {
         let combined = (newTrades + trades)
             .sorted { $0.timestamp > $1.timestamp }
             .prefix(maxTradeCount)
+        
         DispatchQueue.main.async {
             self.trades = Array(combined)
+        }
+        
+        let oldIDs = Set(trades.map { $0.id })
+        let newIDs = Set(newTrades.map { $0.id }).subtracting(oldIDs)
+        DispatchQueue.main.async {
+            self.recentlyInsertedIDs.formUnion(newIDs)
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.recentlyInsertedIDs.subtract(newIDs)
         }
     }
     
