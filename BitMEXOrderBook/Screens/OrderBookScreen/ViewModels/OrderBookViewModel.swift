@@ -13,16 +13,38 @@ class OrderBookViewModel: ObservableObject {
     static let shared = OrderBookViewModel()
     @Published var buyEntries: [OrderBookEntry] = []
     @Published var sellEntries: [OrderBookEntry] = []
+    
+    @Published var throttledBuyEntries: [OrderBookEntry] = []
+    @Published var throttledSellEntries: [OrderBookEntry] = []
 
     private var buyDict: [Int: OrderBookEntry] = [:]
     private var sellDict: [Int: OrderBookEntry] = [:]
     
-    var displayedRows: [(buy: OrderBookEntry?, sell: OrderBookEntry?)] {
-        let count = max(buyEntries.count, sellEntries.count, 20)
-        // Take top 20 only
+    private var cancellables = Set<AnyCancellable>()
+    
+    // The orderBook socket sends data very frequently.
+    // Apply throttle here to prevent the UI from updating too rapidly.
+    init() {
+        $buyEntries
+            .throttle(for: .milliseconds(120), scheduler: RunLoop.main, latest: true)
+            .sink { [weak self] value in
+                self?.throttledBuyEntries = value
+            }
+            .store(in: &cancellables)
+        
+        $sellEntries
+            .throttle(for: .milliseconds(120), scheduler: RunLoop.main, latest: true)
+            .sink { [weak self] value in
+                self?.throttledSellEntries = value
+            }
+            .store(in: &cancellables)
+    }
+    
+    var throttledDisplayedRows: [(buy: OrderBookEntry?, sell: OrderBookEntry?)] {
+        let count = max(throttledBuyEntries.count, throttledSellEntries.count, 20)
         return (0..<min(count, 20)).map { i in
-            let buy = i < buyEntries.count ? buyEntries[i] : nil
-            let sell = i < sellEntries.count ? sellEntries[i] : nil
+            let buy = i < throttledBuyEntries.count ? throttledBuyEntries[i] : nil
+            let sell = i < throttledSellEntries.count ? throttledSellEntries[i] : nil
             return (buy, sell)
         }
     }
@@ -76,33 +98,29 @@ class OrderBookViewModel: ObservableObject {
         sellEntries = []
     }
     
-    // In OrderBookViewModel
-    
-    var buyCumulativeVolumes: [Double] {
+    var throttledBuyCumulativeVolumes: [Double] {
         var result: [Double] = []
         var total = 0.0
-        for entry in buyEntries {
+        for entry in throttledBuyEntries {
             total += entry.size
             result.append(total)
         }
         return result
     }
-    
-    var sellCumulativeVolumes: [Double] {
+    var throttledSellCumulativeVolumes: [Double] {
         var result: [Double] = []
         var total = 0.0
-        for entry in sellEntries {
+        for entry in throttledSellEntries {
             total += entry.size
             result.append(total)
         }
         return result
     }
-    
-    var maxBuyCumulativeVolume: Double {
-        buyCumulativeVolumes.max() ?? 1.0
+    var throttledMaxBuyCumulativeVolume: Double {
+        throttledBuyCumulativeVolumes.max() ?? 1.0
     }
-    var maxSellCumulativeVolume: Double {
-        sellCumulativeVolumes.max() ?? 1.0
+    var throttledMaxSellCumulativeVolume: Double {
+        throttledSellCumulativeVolumes.max() ?? 1.0
     }
 
 }

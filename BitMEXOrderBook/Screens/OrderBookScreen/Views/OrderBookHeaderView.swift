@@ -29,7 +29,7 @@ struct OrderBookHeaderView: View {
             .background(Color(.systemGray6))
             
         }
-        .frame(height: 22) // Set fixed height for header
+        .frame(height: 22)
     }
 }
 

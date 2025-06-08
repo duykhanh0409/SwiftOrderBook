@@ -11,18 +11,18 @@ struct OrderBooksView: View {
     @ObservedObject var viewModel = OrderBookViewModel.shared
    
     var body: some View {
-        let rowsToShow = Array(viewModel.displayedRows.prefix(20))
+     
         VStack(spacing: 0) {
             OrderBookHeaderView()
             
             ScrollView {
-                VStack(spacing: 0) {
-                    let buyCumulatives = viewModel.buyCumulativeVolumes
-                    let sellCumulatives = viewModel.sellCumulativeVolumes
-                    let maxBuyCum = viewModel.maxBuyCumulativeVolume
-                    let maxSellCum = viewModel.maxSellCumulativeVolume
+                LazyVStack(spacing: 0) {
+                    let buyCumulatives = viewModel.throttledBuyCumulativeVolumes
+                    let sellCumulatives = viewModel.throttledSellCumulativeVolumes
+                    let maxBuyCum = viewModel.throttledMaxBuyCumulativeVolume
+                    let maxSellCum = viewModel.throttledMaxSellCumulativeVolume
                     
-                    ForEach(Array(rowsToShow.enumerated()), id: \.offset) { index, row in
+                    ForEach(Array(viewModel.throttledDisplayedRows.enumerated()), id: \.offset) { index, row in
                         OrderBookRowView(
                             buyQty: row.buy.map { $0.size.qtyString($0.size) },
                             buyPrice: row.buy.map { $0.price.formattedWithSeparator(decimalPlaces: 1) },

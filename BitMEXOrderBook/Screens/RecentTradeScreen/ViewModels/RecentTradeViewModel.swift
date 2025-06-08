@@ -41,6 +41,7 @@ class RecentTradesViewModel: ObservableObject {
             self.trades = Array(combined)
         }
         
+        // logic for Fill backgrounds green/red colors for 0.2 seconds.
         let oldIDs = Set(trades.map { $0.id })
         let newIDs = Set(newTrades.map { $0.id }).subtracting(oldIDs)
         DispatchQueue.main.async {
