@@ -75,4 +75,34 @@ class OrderBookViewModel: ObservableObject {
         buyEntries = []
         sellEntries = []
     }
+    
+    // In OrderBookViewModel
+    
+    var buyCumulativeVolumes: [Double] {
+        var result: [Double] = []
+        var total = 0.0
+        for entry in buyEntries {
+            total += entry.size
+            result.append(total)
+        }
+        return result
+    }
+    
+    var sellCumulativeVolumes: [Double] {
+        var result: [Double] = []
+        var total = 0.0
+        for entry in sellEntries {
+            total += entry.size
+            result.append(total)
+        }
+        return result
+    }
+    
+    var maxBuyCumulativeVolume: Double {
+        buyCumulativeVolumes.max() ?? 1.0
+    }
+    var maxSellCumulativeVolume: Double {
+        sellCumulativeVolumes.max() ?? 1.0
+    }
+
 }

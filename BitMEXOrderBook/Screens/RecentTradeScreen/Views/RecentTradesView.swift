@@ -24,8 +24,8 @@ struct RecentTradesView: View {
                     }
                 }
                 .padding(.horizontal)
-                .scrollIndicators(.hidden)
             }
+            .scrollIndicators(.hidden)
         }
     }
 }
