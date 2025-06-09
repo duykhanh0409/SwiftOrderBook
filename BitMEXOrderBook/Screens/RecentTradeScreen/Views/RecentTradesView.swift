@@ -16,7 +16,7 @@ struct RecentTradesView: View {
             ScrollView {
                 LazyVStack(spacing: 2) {
                     ForEach(viewModel.trades) { trade in
-                        RecentTradeRowView(
+                        RecentTradesRowView(
                             trade: trade,
                             isNew: viewModel.recentlyInsertedIDs.contains(trade.id)
                         )

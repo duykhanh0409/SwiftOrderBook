@@ -9,7 +9,7 @@ import SwiftUI
 
 import SwiftUI
 
-struct RecentTradeRowView: View {
+struct RecentTradesRowView: View {
     let trade: Trade
     let isNew: Bool
     
