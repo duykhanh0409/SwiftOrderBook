@@ -10,15 +10,23 @@ import Combine
 
 class WebSocketManager: ObservableObject {
     static let shared = WebSocketManager()
-    private var webSocketTask: URLSessionWebSocketTask?
-    let orderBookViewModel = OrderBookViewModel.shared
-    let recentTradesViewModel = RecentTradesViewModel.shared
-    private let urlSession = URLSession(configuration: .default)
-    private let urlString = BitMEXConstants.webSocketURL
+    private(set) var webSocketTask: URLSessionWebSocketTask?
+    let orderBookViewModel: OrderBookViewModel
+    let recentTradesViewModel: RecentTradesViewModel
+    private let urlSession: URLSession
+    private let urlString: String
     
     private var cancellables = Set<AnyCancellable>()
     
-    private init() {}
+    init(orderBookViewModel: OrderBookViewModel = .shared,
+         recentTradesViewModel: RecentTradesViewModel = .shared,
+         urlSession: URLSession = .shared,
+         urlString: String = BitMEXConstants.webSocketURL) {
+        self.orderBookViewModel = orderBookViewModel
+        self.recentTradesViewModel = recentTradesViewModel
+        self.urlSession = urlSession
+        self.urlString = urlString
+    }
     
     func connect() {
         guard webSocketTask == nil else { return }
@@ -95,7 +103,7 @@ class WebSocketManager: ObservableObject {
         }
     }
     
-    private func handle(data: Data) {
+    internal func handle(data: Data) {
         if let text = String(data: data, encoding: .utf8) {
             handle(text: text)
         }

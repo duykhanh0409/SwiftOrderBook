@@ -14,8 +14,8 @@
             filePath = "BitMEXOrderBook/Services/WebSocketManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
             landmarkName = "listen()"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "BitMEXOrderBook/Services/WebSocketManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
             landmarkName = "handle(text:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "BitMEXOrderBook/Services/WebSocketManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
             landmarkName = "handle(text:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -142,8 +142,8 @@
             filePath = "BitMEXOrderBook/Services/WebSocketManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "93"
-            endingLineNumber = "93"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
             landmarkName = "handle(text:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -158,8 +158,8 @@
             filePath = "BitMEXOrderBook/Services/WebSocketManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "handle(text:)"
             landmarkType = "7">
          </BreakpointContent>

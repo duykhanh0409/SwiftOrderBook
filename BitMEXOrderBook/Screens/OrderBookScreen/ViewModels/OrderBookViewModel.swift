@@ -53,7 +53,7 @@ class OrderBookViewModel: ObservableObject {
         guard let action = msg["action"] as? String,
               let dataArr = msg["data"] as? [[String: Any]] else { return }
         
-        // I want run all mutation code on the main thread to prevent unexpected issue
+        // Ensure all state mutations are performed on the main thread for thread safety.
         DispatchQueue.main.async {
             for entry in dataArr {
                 guard let id = entry["id"] as? Int,
